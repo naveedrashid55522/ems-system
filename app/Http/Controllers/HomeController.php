@@ -29,7 +29,6 @@ class HomeController extends Controller
 
     public function logout()
     {
-        dd('hello');
         Auth::logout();
         return redirect()->route('login');
     }
