@@ -5,7 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Auth::routes(['register' => false]);
+Auth::routes(['register' => true]);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [PortfolioController::class, 'index'])->name('home');
