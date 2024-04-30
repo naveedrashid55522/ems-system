@@ -11,19 +11,19 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    public function role(){
+        return $this->belongsTo(Role::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    
-    // protected $attributes = [
-    //     'roles' => '["employee"]',
-    // ];
 
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+     protected $fillable = [
+        'name', 'email', 'password', 'role_id',
+    ];    
 
     /**
      * The attributes that should be hidden for arrays.

@@ -1,15 +1,26 @@
 <?php
 
-use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes(['register' => true]);
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', [PortfolioController::class, 'index'])->name('home');
-    Route::get('/users', [UserController::class, 'index']);
+    Route::get('/', [HomeController::class, 'dashboard'])->name('home');
     Route::get('/admin', [HomeController::class, 'index'])->name('admin');
     Route::post('logout', [HomeController::class, 'logout'])->name('logoutUser');
+
+    // users
+    
+    Route::get('/users', [UserController::class, 'index'])->name('users');
+    Route::get('/users/create', [UserController::class, 'create'])->name('user_create');
+    Route::post('/users/create', [UserController::class, 'store'])->name('post_user');
+    
+    // Role Manager
+    
+    Route::get('/role', [RoleController::class, 'index'])->name('roles');
+    Route::get('/role/create', [RoleController::class, 'create'])->name('role_create');
+    Route::post('/role/create', [RoleController::class, 'store'])->name('role_store');
 });

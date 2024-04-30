@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
-use App\Http\Requests\StoreRoleRequest;
-use App\Http\Requests\UpdateRoleRequest;
+use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
@@ -15,7 +14,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $roles = Role::get();
+        return view('role-manager.role', compact('roles'));
     }
 
     /**
@@ -25,18 +25,29 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        return view('role-manager.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreRoleRequest  $request
+     * @param  \App\Http\Requests\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRoleRequest $request)
+    public function store(Request $request)
     {
-        //
+        $request->validate([
+            'add_role' => 'required|string',
+        ]);
+    
+        $roleName = strtolower(str_replace(' ', '-', $request->add_role));
+    
+        Role::create([
+            'name' => $roleName,
+            'status' => 'active',
+        ]);
+
+        return response()->json(['message' => 'Role created successfully'], 200);
     }
 
     /**

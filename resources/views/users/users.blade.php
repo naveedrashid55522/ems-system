@@ -5,50 +5,42 @@
         <div class="col-12 grid-margin stretch-card">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">Hoverable Table</h4>
-              <p class="card-description"> Add class <code>.table-hover</code>
-              </p>
+              <div class="tableBtnGroup d-flex justify-content-between">
+                <h4 class="card-title">Users Dashboard</h4>
+                <a href="{{ route('user_create') }}" class="btn btn-primary">Add User</a>
+              </div>
               <div class="table-responsive">
                 <table class="table table-hover">
                   <thead>
                     <tr>
-                      <th>User</th>
-                      <th>Product</th>
-                      <th>Sale</th>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
                       <th>Status</th>
+                      <th>Edit</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>Jacob</td>
-                      <td>Photoshop</td>
-                      <td class="text-danger"> 28.76% <i class="ti-arrow-down"></i></td>
-                      <td><label class="badge badge-danger">Pending</label></td>
-                    </tr>
-                    <tr>
-                      <td>Messsy</td>
-                      <td>Flash</td>
-                      <td class="text-danger"> 21.06% <i class="ti-arrow-down"></i></td>
-                      <td><label class="badge badge-warning">In progress</label></td>
-                    </tr>
-                    <tr>
-                      <td>John</td>
-                      <td>Premier</td>
-                      <td class="text-danger"> 35.00% <i class="ti-arrow-down"></i></td>
-                      <td><label class="badge badge-info">Fixed</label></td>
-                    </tr>
-                    <tr>
-                      <td>Peter</td>
-                      <td>After effects</td>
-                      <td class="text-success"> 82.00% <i class="ti-arrow-up"></i></td>
-                      <td><label class="badge badge-success">Completed</label></td>
-                    </tr>
-                    <tr>
-                      <td>Dave</td>
-                      <td>53275535</td>
-                      <td class="text-success"> 98.05% <i class="ti-arrow-up"></i></td>
-                      <td><label class="badge badge-warning">In progress</label></td>
-                    </tr>
+                    @if (count($users) > 0)
+                      @foreach ($users as $user)
+                      {{-- {{dd($user)}} --}}
+                      <tr>
+                        <td>#{{$user->id}}</td>
+                        <td>{{$user->name}}</td>
+                        <td class="text-danger">{{$user->email}}</td>
+                        <td>
+                          @if ($user->role_id ==0)
+                              {{'Super Admin'}}  
+                            @else
+                            {{$user->role->name}}
+                          @endif
+                        </td>
+                        <td>{!! $user->role_id != 0 ? '<label class="badge badge-danger">Pending</label>' : '' !!}</td>
+                        <td>{!! $user->role_id != 0 ? '<a href="#" class="badge badge-danger">Pending</a>' : '' !!}</td>
+                      </tr>
+                      @endforeach
+                    @endif
                   </tbody>
                 </table>
               </div>
