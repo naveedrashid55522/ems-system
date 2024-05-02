@@ -3,84 +3,66 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
-use App\Http\Requests\StoreAttendanceRequest;
-use App\Http\Requests\UpdateAttendanceRequest;
-
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 class AttendanceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+
+    public function AttendanceShow(){
+        $attendance = Attendance::all();
+        return view('attendance.attendance', compact('attendance'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function checkInuser(Request $request)
     {
-        //
+        $userId = Auth::id();
+        $attendance = Attendance::where('user_id', $userId)
+            ->whereDate('attendance_date', now()->toDateString())
+            ->first();
+    
+        if ($attendance) {
+            return response()->json(['message' => 'Already checked in for today']);
+        }
+    
+        Attendance::create([
+            'user_id' => $userId,
+            'attendance_date' => now()->toDateString(),
+            'check_in' => now()->toTimeString(),
+            'status' => 'present',
+        ]);
+    
+        return response()->json(['message' => 'Check in successfully']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreAttendanceRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreAttendanceRequest $request)
+    public function checkOutUser(Request $request)
     {
-        //
+        $user_id = $request->user_id;
+        $date = now()->format('Y-m-d');
+        $time = now()->format('H:i:s');
+        $existingAttendance = Attendance::where('user_id', $user_id)
+            ->where('attendance_date', $date)
+            ->first();
+    
+        if ($existingAttendance && $existingAttendance->check_out) {
+            return redirect()->back()->with('error', 'You have already checked out.');
+        }
+    
+        $officeClosingTime = Carbon::createFromTime(17, 0, 0);
+        $checkOutTime = now();
+    
+        if ($checkOutTime < $officeClosingTime) {
+            $status = 'early_out';
+        } else {
+            $status = 'present';
+        }
+    
+        Attendance::updateOrCreate(
+            ['user_id' => $user_id, 'attendance_date' => $date],
+            ['check_out' => $time, 'status' => $status]
+        );
+    
+        return redirect()->back()->with('success', 'Checked out successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Attendance  $attendance
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Attendance $attendance)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Attendance  $attendance
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Attendance $attendance)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateAttendanceRequest  $request
-     * @param  \App\Models\Attendance  $attendance
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateAttendanceRequest $request, Attendance $attendance)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Attendance  $attendance
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Attendance $attendance)
-    {
-        //
-    }
 }

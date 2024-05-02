@@ -26,7 +26,7 @@ class HomeController extends Controller
     {
         return view('auth.login');
     }
-    
+
     public function dashboard()
     {
         return view('dashboard');
@@ -37,5 +37,4 @@ class HomeController extends Controller
         Auth::logout();
         return redirect()->route('login');
     }
-    
 }

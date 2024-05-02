@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
@@ -11,7 +12,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', [HomeController::class, 'dashboard'])->name('home');
     Route::get('/admin', [HomeController::class, 'index'])->name('admin');
     Route::post('logout', [HomeController::class, 'logout'])->name('logoutUser');
-
+    
+    Route::get('/attendance', [AttendanceController::class, 'AttendanceShow'])->name('attendance');
+    Route::post('/checkin', [AttendanceController::class, 'checkInuser'])->name('checkIn');
+    Route::post('/checkOut', [AttendanceController::class, 'checkOutUser'])->name('checkOut');
+    
     // users
     
     Route::get('/users', [UserController::class, 'index'])->name('users');
@@ -24,3 +29,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/role/create', [RoleController::class, 'create'])->name('role_create');
     Route::post('/role/create', [RoleController::class, 'store'])->name('role_store');
 });
+ 
