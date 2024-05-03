@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,8 +11,10 @@ class AttendanceController extends Controller
 {
 
     public function AttendanceShow(){
+        $users = User::with('role')->get();
         $attendance = Attendance::all();
-        return view('attendance.attendance', compact('attendance'));
+
+        return view('attendance.attendance', compact('users', 'attendance'));
     }
 
     public function checkInuser(Request $request)

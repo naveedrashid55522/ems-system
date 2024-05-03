@@ -92,21 +92,38 @@ $(document).ready(function () {
 
     // post check out request
 
+    function updateCheckedOutStatus(isCheckedOut) {
+        $('#checkOut').data('already-checked-out', isCheckedOut ? 'true' : 'false');
+    }
+
     $('#checkOut').submit(function (e) {
         e.preventDefault();
         const url = $(this).attr('action');
         const token = $('meta[name="csrf-token"]').attr('content');
+        const alreadyCheckedOut = $(this).data('already-checked-out');
 
         if (confirm("Are you sure you want to check out early?")) {
-            // Calculate remaining hours
+            if (alreadyCheckedOut === 'true') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Already Checked Out',
+                    text: 'You have already checked out.',
+                });
+                return;
+            }
+
             const now = new Date();
-            const hours = 17 - now.getHours(); // Assuming office closes at 5pm
+            const hours = 17 - now.getHours();
             const minutes = 60 - now.getMinutes();
             const remainingTime = hours + " hours and " + minutes + " minutes";
 
             if (hours <= 0 && minutes <= 0) {
-                alert("It's already past office closing time. You cannot check out early.");
-                return false;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Already Past Office Closing Time',
+                    text: 'It\'s already past office closing time. You cannot check out early.',
+                });
+                return;
             }
 
             $.ajax({
@@ -120,7 +137,22 @@ $(document).ready(function () {
                     'X-CSRF-TOKEN': token
                 },
                 success: function (response) {
-                    console.log(response);
+                    updateCheckedOutStatus(true);
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+                    Toast.fire({
+                        icon: "success",
+                        title: "Check out successfully"
+                    });
                 },
                 error: function (xhr) {
                     console.error(xhr);
@@ -128,5 +160,4 @@ $(document).ready(function () {
             });
         }
     });
-
 });

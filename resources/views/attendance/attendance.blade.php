@@ -6,8 +6,10 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="tableBtnGroup d-flex justify-content-between">
-                            <h4 class="card-title">Users Dashboard</h4>
-                            <a href="{{ route('user_create') }}" class="btn btn-primary">Add User</a>
+                            <h4 class="card-title">Employee Attendance</h4>
+                            @if (in_array(auth()->user()->role_id, [1, 2]))
+                                <a href="{{ route('user_create') }}" class="btn btn-primary">Add User</a>
+                            @endif
                         </div>
                         <div class="table-responsive">
                             <table class="table table-hover">
@@ -23,37 +25,50 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (count($attendance) > 0)
+                                    @if (auth()->user()->id == 1 || auth()->user()->id == 2)
                                         @foreach ($attendance as $result)
-                                            {{-- {{}} --}}
-                                            {{-- {{dd($result)}} --}}
                                             <tr>
-                                                <td>{{ $result->id }}</td>
+                                                <td>#{{ $result->id }}</td>
                                                 <td>
-                                                    @if (Auth::user()->id == $result->user_id)
-                                                        {{ Auth::user()->name }}
-                                                    @endif
+                                                    @foreach ($users as $user)
+                                                        @if ($result->user_id == $user->id)
+                                                            {{ $user->name }}
+                                                        @endif
+                                                    @endforeach
                                                 </td>
                                                 <td>{{ $result->attendance_date }}</td>
                                                 <td>{{ $result->check_in }}</td>
                                                 <td>{{ $result->check_out }}</td>
                                                 <td>
-                                                    <td>
-                                                        @if ($result->check_out && $result->check_in)
-                                                            <?php
-                                                                $checkIn = strtotime($result->check_in);
-                                                                $checkOut = strtotime($result->check_out);
-                                                                $totalHours = ($checkOut - $checkIn) / (60 * 60);
-                                                                echo number_format($totalHours, 2);
-                                                            ?>
-                                                        @endif
-                                                    </td>
-                                                    
+                                                    {{ showEmployeeTime($result->check_in, $result->check_out) }}
                                                 </td>
-                                                <td>{{ $result->status }}</td>
+                                                <td>{{ textFormating($result->status) }}</td>
                                             </tr>
                                         @endforeach
+                                    @else
+                                        @foreach ($attendance as $result)
+                                            @if ($result->user_id == auth()->user()->id)
+                                                <tr>
+                                                    <td>{{ $result->id }}</td>
+                                                    <td>
+                                                        @foreach ($users as $user)
+                                                            @if ($user->id == auth()->user()->id)
+                                                                {{ $user->name }}
+                                                            @endif
+                                                        @endforeach
+                                                    </td>
+                                                    <td>{{ $result->attendance_date }}</td>
+                                                    <td>{{ $result->check_in }}</td>
+                                                    <td>{{ $result->check_out }}</td>
+                                                    <td>
+                                                        {{ showEmployeeTime($result->check_in, $result->check_out) }}
+                                                    </td>
+                                                    <td>{{ textFormating($result->status) }}</td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
                                     @endif
+
                                 </tbody>
                             </table>
                         </div>

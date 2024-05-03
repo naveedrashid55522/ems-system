@@ -17,10 +17,10 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'name' => 'admin',
-                'email' => 'test@gmail.com',
+                'email' => 'admin@gmail.com',
                 'password' => bcrypt('admin12345'),
                 'status' => 'active',
-                'role_id' => 0
+                'role_id' => 1
             ]
         ];
 
