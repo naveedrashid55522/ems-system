@@ -16,8 +16,7 @@
     <link rel="stylesheet" href="assets/vendors/simple-line-icons/css/simple-line-icons.css">
     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.8/sweetalert2.min.css"
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
     <!-- endinject -->
     <!-- Plugin css for this page -->
     {{-- <link rel="stylesheet" href="assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css"> --}}
@@ -53,40 +52,6 @@
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-top">
                 <ul class="navbar-nav ms-auto">
-
-                    @php
-                        $userId = Auth::id();
-                        $attendance = DB::table('attendances')
-                            ->where('user_id', $userId)
-                            ->whereDate('attendance_date', now()->toDateString())
-                            ->first();
-                        $userCheckedInToday = $attendance !== null;
-                    @endphp
-
-                    @if (!$userCheckedInToday)
-                        <li class="nav-item">
-                            <form action="{{ route('checkIn') }}" method="POST" id="checkin">
-                                @csrf
-                                <button type="submit" class="btn btn-success checkinBtn">Check In</button>
-                            </form>
-                        </li>
-                    @else
-                        <script>
-                            const userId = {{ auth()->user()->id }};
-                        </script>
-                        <form action="{{ route('checkOut') }}" method="POST" id="checkOut" data-already-checked-out="{{ auth()->check() && auth()->user()->hasCheckedOut ? 'true' : 'false' }}">
-                            @csrf
-                            <button type="submit" class="btn btn-warning">Check Out</button>
-                        </form>
-                    @endif
-
-                    {{-- <li class="nav-item">
-                            <form action="{{ route('checkIn') }}" method="POST" id="checkin">
-                                @csrf
-                                <button type="submit" class="btn btn-success">Check In</button>
-                            </form>
-                        </li> --}}
-
                     <li class="nav-item">
                         <form class="search-form" action="#">
                             <i class="icon-search"></i>
@@ -190,7 +155,7 @@
     {{-- <script src="{{ asset('assets/vendors/progressbar.js/progressbar.min.js') }}"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"
         referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.8/sweetalert2.min.js"></script>
+    
     <script src="{{ asset('assets/js/customAjax.js') }}"></script>
     <script src="{{ asset('assets/js/dashboard.js') }}"></script>
     <script src="{{ asset('assets/js/template.js') }}"></script>

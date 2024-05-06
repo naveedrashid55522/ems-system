@@ -1,0 +1,18 @@
+.treeview .btnLogout {
+    background: transparent;
+    border: none;
+    margin-left: 20px;
+    padding: 15px 0px;
+    font-size: 18px;
+}
+
+.flexBtnHeader {
+    display: flex;
+    align-items: center;
+}
+
+.flexBtnHeader .checkinBtn {
+    border: none;
+    background: #fff;
+    color: #000;
+}

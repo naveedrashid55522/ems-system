@@ -21,6 +21,7 @@
                                         <th>Check In</th>
                                         <th>Check Out</th>
                                         <th>Total Hours</th>
+                                        <th>Over Time</th>
                                         <th>status</th>
                                     </tr>
                                 </thead>
@@ -40,8 +41,11 @@
                                                 <td>{{ $result->check_in }}</td>
                                                 <td>{{ $result->check_out }}</td>
                                                 <td>
-                                                    {{ showEmployeeTime($result->check_in, $result->check_out) }}
+                                                    @if ($result->check_out !== null)
+                                                        {{ showEmployeeTime($result->check_in, $result->check_out) }}
+                                                    @endif
                                                 </td>
+                                                <td>{{$result->total_overtime}}</td>
                                                 <td>{{ textFormating($result->status) }}</td>
                                             </tr>
                                         @endforeach
@@ -61,8 +65,11 @@
                                                     <td>{{ $result->check_in }}</td>
                                                     <td>{{ $result->check_out }}</td>
                                                     <td>
-                                                        {{ showEmployeeTime($result->check_in, $result->check_out) }}
+                                                        @if ($result->check_out !== null)
+                                                            {{ showEmployeeTime($result->check_in, $result->check_out) }}
+                                                        @endif
                                                     </td>
+                                                    <td>{{$result->total_overtime}}</td>
                                                     <td>{{ textFormating($result->status) }}</td>
                                                 </tr>
                                             @endif

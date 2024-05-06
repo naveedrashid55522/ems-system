@@ -19,7 +19,8 @@ class CreateAttendancesTable extends Migration
             $table->date('attendance_date');
             $table->time('check_in')->nullable();
             $table->time('check_out')->nullable();
-            $table->enum('status', ['present', 'early_out', 'late'])->default('present');
+            $table->string('total_overtime')->nullable();
+            $table->enum('status', ['present', 'early_out', 'late', 'ot'])->default('present');
             $table->timestamps();
         });
     }

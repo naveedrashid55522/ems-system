@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Portfolio;
-use App\Http\Requests\StorePortfolioRequest;
-use App\Http\Requests\UpdatePortfolioRequest;
+use App\Models\Permission;
+use App\Http\Requests\StorePermissionRequest;
+use App\Http\Requests\UpdatePermissionRequest;
 
-class PortfolioController extends Controller
+class PermissionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class PortfolioController extends Controller
      */
     public function index()
     {
-        return view('new');
+        //
     }
 
     /**
@@ -31,10 +31,10 @@ class PortfolioController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StorePortfolioRequest  $request
+     * @param  \App\Http\Requests\StorePermissionRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePortfolioRequest $request)
+    public function store(StorePermissionRequest $request)
     {
         //
     }
@@ -42,10 +42,10 @@ class PortfolioController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Portfolio  $portfolio
+     * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function show(Portfolio $portfolio)
+    public function show(Permission $permission)
     {
         //
     }
@@ -53,10 +53,10 @@ class PortfolioController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Portfolio  $portfolio
+     * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function edit(Portfolio $portfolio)
+    public function edit(Permission $permission)
     {
         //
     }
@@ -64,11 +64,11 @@ class PortfolioController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdatePortfolioRequest  $request
-     * @param  \App\Models\Portfolio  $portfolio
+     * @param  \App\Http\Requests\UpdatePermissionRequest  $request
+     * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePortfolioRequest $request, Portfolio $portfolio)
+    public function update(UpdatePermissionRequest $request, Permission $permission)
     {
         //
     }
@@ -76,10 +76,10 @@ class PortfolioController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Portfolio  $portfolio
+     * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Portfolio $portfolio)
+    public function destroy(Permission $permission)
     {
         //
     }
