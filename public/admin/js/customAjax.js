@@ -61,7 +61,7 @@ $(document).ready(function () {
             });
             return;
         }
-    
+
         const formData = new FormData(this);
         const url = $(this).attr('action');
         const token = $('meta[name="csrf-token"]').attr('content');
@@ -99,15 +99,25 @@ $(document).ready(function () {
 
     $('#departmentDataUpdate').submit(function (e) {
         e.preventDefault();
-        
+
+        const dp_name = $('input[name="department_name"]').val().trim();
+        const dp_status = $('select[name="status"]').val().trim();
+        if (dp_name === '' || dp_status === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Name or status cannot be empty.',
+            });
+            return;
+        }
+
+        const formData = new FormData(this);
+        formData.append('_method', 'PUT');
         const url = $(this).attr('action');
         const token = $('meta[name="csrf-token"]').attr('content');
-    
-        const formData = new FormData(this);
-        console.log(formData);
         $.ajax({
             url: url,
-            method: 'PUT',
+            method: 'POST',
             data: formData,
             processData: false,
             contentType: false,
@@ -115,28 +125,76 @@ $(document).ready(function () {
                 'X-CSRF-TOKEN': token
             }
         })
-        .then(function (response) {
-            console.log(response);
-            Swal.fire({
-                icon: 'success',
-                title: 'Success!',
-                text: response.message,
+            .then(function (response) {
+                console.log(response);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: response.message,
+                });
+                // window.location.reload();
+            })
+            .catch(function (xhr) {
+                console.error(xhr);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Failed to update Department.',
+                });
             });
-            $('#departmentDataUpdate')[0].reset();
-        })
-        .catch(function (xhr) {
-            console.error(xhr);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error!',
-                text: 'Failed to update Department.',
-            });
+    });
+
+    // Destroy Department
+
+    $('.delete-department').on('click', function (e) {
+        e.preventDefault();
+        const departmentId = $(this).data('department-id');
+        const deleteRoute = $(this).data('delete-route').replace(':id', departmentId);
+    
+        // Store reference to clicked element
+        const $clickedElement = $(this);
+    
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You will not be able to recover this department!',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const token = $('meta[name="csrf-token"]').attr('content');
+    
+                $.ajax({
+                    type: "DELETE",
+                    url: deleteRoute,
+                    headers: {
+                        'X-CSRF-TOKEN': token
+                    }
+                }).then(function (response) {
+                    console.log(response);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: response.message,
+                    });
+                    // Use the reference to the clicked element to remove its closest 'tr'
+                    $clickedElement.closest('tr').remove();
+                }).catch(function (xhr) {
+                    console.error(xhr);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Failed to delete Department.',
+                    });
+                });
+            }
         });
     });
     
-    
-    
-    
+
     // post check in request
 
     $('#checkin').submit(function (e) {

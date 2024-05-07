@@ -52,12 +52,25 @@ Route::middleware(['auth', 'role:1,2'])->group(function () {
     Route::post('/role/create', [RoleController::class, 'store'])->name('role_store');
     
     // Department Routes
+    Route::resource('department', DepartmentController::class)->parameters([
+        'department' => 'id'
+    ])->names([
+        'index' => 'departmentView',
+        'create' => 'departmentCreate',
+        'store' => 'departmentStore',
+        'edit' => 'departmentEdit', 
+        'update' => 'departmentUpdate',
+        'destroy' => 'departmentDestroy',
+    ])->except([
+        'show'
+    ]);
     
-    Route::get('/department', [DepartmentController::class, 'index'])->name('departmentView');
-    Route::get('/department/create', [DepartmentController::class, 'create'])->name('departmentCreate');
-    Route::post('/department/create', [DepartmentController::class, 'store'])->name('departmentStore');
-    Route::get('/department/{id}/edit', [DepartmentController::class, 'edit'])->name('departmentEdit');
-    Route::put('/department/{id}/update', [DepartmentController::class, 'update'])->name('departmentUpdate');
+    // Route::get('/department', [DepartmentController::class, 'index'])->name('departmentView');
+    // Route::get('/department/create', [DepartmentController::class, 'create'])->name('departmentCreate');
+    // Route::post('/department/create', [DepartmentController::class, 'store'])->name('departmentStore');
+    // Route::get('/department/{id}/edit', [DepartmentController::class, 'edit'])->name('departmentEdit');
+    // Route::put('/department/{id}/update', [DepartmentController::class, 'update'])->name('departmentUpdate');
+    // Route::delete('/department/{id}', [DepartmentController::class, 'destroy'])->name('departmentDestroy');
 });
 
 Route::get('/', [HomeController::class, 'dashboard'])->name('home');

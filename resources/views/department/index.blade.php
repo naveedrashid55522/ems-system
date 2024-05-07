@@ -48,7 +48,7 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('departmentEdit', ['id' => $department->id]) }}" class="btn btn-info btn-flat btn-sm"> <i class="fa fa-edit"></i></a>
-                                    <button class="btn btn-danger btn-flat btn-sm"><i class="fa-regular fa-trash-can"></i></button>
+                                    <button class="delete-department btn btn-danger btn-flat btn-sm" data-department-id="{{ $department->id }}" data-delete-route="{{ route('departmentDestroy', ':id') }}"><i class="fa-regular fa-trash-can"></i></button>
                                 </td>
                             </tr>
                         @endforeach
