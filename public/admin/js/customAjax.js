@@ -47,6 +47,96 @@ $(document).ready(function () {
             });
     });
 
+    // Add Department
+
+    $('#departmentData').submit(function (e) {
+        e.preventDefault();
+        const dp_name = $('input[name="department_name"]').val().trim();
+        const dp_status = $('select[name="status"]').val().trim();
+        if (dp_name === '' || dp_status === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Name or status cannot be empty.',
+            });
+            return;
+        }
+    
+        const formData = new FormData(this);
+        const url = $(this).attr('action');
+        const token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            headers: {
+                'X-CSRF-TOKEN': token
+            }
+        })
+            .then(function (response) {
+                console.log(response);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: response.message,
+                });
+                $('#departmentData')[0].reset();
+                $('#dp_name').val('');
+            })
+            .catch(function (xhr) {
+                console.error(xhr);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Failed to create Department.',
+                });
+            });
+    });
+
+    // Update Department
+
+    $('#departmentDataUpdate').submit(function (e) {
+        e.preventDefault();
+        
+        const url = $(this).attr('action');
+        const token = $('meta[name="csrf-token"]').attr('content');
+    
+        const formData = new FormData(this);
+        console.log(formData);
+        $.ajax({
+            url: url,
+            method: 'PUT',
+            data: formData,
+            processData: false,
+            contentType: false,
+            headers: {
+                'X-CSRF-TOKEN': token
+            }
+        })
+        .then(function (response) {
+            console.log(response);
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: response.message,
+            });
+            $('#departmentDataUpdate')[0].reset();
+        })
+        .catch(function (xhr) {
+            console.error(xhr);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Failed to update Department.',
+            });
+        });
+    });
+    
+    
+    
+    
     // post check in request
 
     $('#checkin').submit(function (e) {
@@ -92,14 +182,13 @@ $(document).ready(function () {
 
     // post check out request
 
-
     $('#checkOut').submit(function (e) {
         e.preventDefault();
         const url = $(this).attr('action');
         const token = $('meta[name="csrf-token"]').attr('content');
         const alreadyCheckedOut = $(this).data('already-checked-out');
 
-        if (confirm("Are you sure you want to check out early?")) {
+        if (confirm("Are you sure you want to check out?")) {
             if (alreadyCheckedOut === 'true') {
                 Swal.fire({
                     icon: 'error',
@@ -159,4 +248,5 @@ $(document).ready(function () {
             });
         }
     });
+
 });
