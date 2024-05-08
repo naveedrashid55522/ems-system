@@ -146,11 +146,11 @@
                         </a>
                         <ul class="treeview-menu">
                             <li class="">
-                                <a href="javascript:;"><i class="fa fa-circle-o"></i> View Department
+                                <a href="{{ route('departmentView') }}"><i class="fa fa-circle-o"></i> View Department
                                 </a>
                             </li>
                             <li class="active">
-                                <a href="javascript:;"><i class="fa fa-circle-o"></i>
+                                <a href="{{ route('departmentCreate') }}"><i class="fa fa-circle-o"></i>
                                     Add Department
                                 </a>
                             </li>
