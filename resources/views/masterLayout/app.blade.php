@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Home | American Books</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" type="image/png" href="{{ asset('Pixelz360.png') }}">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -22,9 +23,8 @@
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
         <header class="main-header">
-            <a href="assets/index2.html" class="logo">
-                <span class="logo-mini"><b>C</b>MS</span>
-                <span class="logo-lg"><b>CMS</b> Panelsdsdfd</span>
+            <a href="javascrip:;" class="logo">
+                Pixel360
             </a>
             <nav class="navbar navbar-static-top">
                 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
@@ -122,18 +122,18 @@
                     </li>
                     <li class="active treeview">
                         <a href="javascript:;">
-                            <i class="fa fa-users"></i> <span>Employee</span>
+                            <i class="fa fa-users"></i> <span>User</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
                             <li class=""><a href="{{ route('users') }}"><i class="fa fa-circle-o"></i> View
-                                    Employee
+                                    User
                                 </a></li>
                             <li class="active"><a href="{{ route('user_create') }}"><i class="fa fa-circle-o"></i>
                                     Add
-                                    Employee</a>
+                                    User</a>
                             </li>
                         </ul>
                     </li>
@@ -164,12 +164,12 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="">
-                                <a href="javascript:;"><i class="fa fa-circle-o"></i> View Desgination
+                            <li class="active">
+                                <a href="{{route('designation.view')}}"><i class="fa fa-circle-o"></i> View Desgination
                                 </a>
                             </li>
                             <li class="active">
-                                <a href="javascript:;"><i class="fa fa-circle-o"></i>
+                                <a href="{{route('designation.create')}}"><i class="fa fa-circle-o"></i>
                                     Add Desgination
                                 </a>
                             </li>
@@ -298,7 +298,7 @@
             <div class="pull-right hidden-xs">
                 <b>Version</b> 2.3.6
             </div>
-            <strong>Copyright &copy; 2018-2019 <a href="https://www.afaicon.com">AFA Icon</a>.</strong> All rights
+            <strong>Copyright &copy; 2018-2019 <a href="#">Pixel 360</a>.</strong> All rights
             reserved.
         </footer>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"

@@ -54,6 +54,9 @@ Route::middleware(['auth', 'role:1,2'])->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users');
     Route::get('/users/create', [UserController::class, 'create'])->name('user_create');
     Route::post('/users/create', [UserController::class, 'store'])->name('post_user');
+    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('user_edit');
+    Route::put('/user-status/{id}', [UserController::class, 'updateStatus'])->name('users.status');
+    Route::put('/users/update/{id}', [UserController::class, 'update'])->name('users.update');
 
     Route::get('/role', [RoleController::class, 'index'])->name('roles');
     Route::get('/role/create', [RoleController::class, 'create'])->name('role_create');
@@ -86,14 +89,14 @@ Route::middleware(['auth', 'role:1,2'])->group(function () {
     ]);
 
     Route::put('/update-status/{id}', [DesignationController::class, 'updateStatus'])->name('update.status');
-
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', [HomeController::class, 'dashboard'])->name('home');
+    Route::get('/admin', [HomeController::class, 'index'])->name('admin');
+    Route::post('logout', [HomeController::class, 'logout'])->name('logoutUser');
 
-Route::get('/', [HomeController::class, 'dashboard'])->name('home');
-Route::get('/admin', [HomeController::class, 'index'])->name('admin');
-Route::post('logout', [HomeController::class, 'logout'])->name('logoutUser');
-
-Route::get('/attendance', [AttendanceController::class, 'AttendanceShow'])->name('attendance');
-Route::post('/checkin', [AttendanceController::class, 'checkInuser'])->name('checkIn');
-Route::post('/checkOut', [AttendanceController::class, 'checkOutUser'])->name('checkOut');
+    Route::get('/attendance', [AttendanceController::class, 'AttendanceShow'])->name('attendance');
+    Route::post('/checkin', [AttendanceController::class, 'checkInuser'])->name('checkIn');
+    Route::post('/checkOut', [AttendanceController::class, 'checkOutUser'])->name('checkOut');
+});
